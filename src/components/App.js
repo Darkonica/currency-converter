@@ -14,7 +14,7 @@ export default class App extends Component {
           <Header />
           <Switch>
             <Route path="/" component={ConverterPage} exact />
-            <Route path="/currency" component={CurrencyListPage} />
+            <Route path="/currency-list" component={CurrencyListPage} />
             <Route component={Page404} />
           </Switch>
         </>

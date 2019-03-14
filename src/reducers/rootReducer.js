@@ -1,10 +1,10 @@
 import { combineReducers } from "redux";
-import todos from "./todoReducer";
+import currency from "./currencyReducer";
 import visibilityFilter from "./filterReducer";
 
 const rootReducer = combineReducers({
-  todos,
-  visibilityFilter,
+  currency,
+  // visibilityFilter,
 });
 
 export default rootReducer;

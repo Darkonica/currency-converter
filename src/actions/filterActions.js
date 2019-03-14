@@ -1,8 +1,8 @@
-import { SET_VISIBILITY_FILTER } from "./actionTypes";
+// import { SET_VISIBILITY_FILTER } from "./actionTypes";
 
-export function setVisibilityFilter(filter) {
-  return {
-    type: SET_VISIBILITY_FILTER,
-    filter,
-  };
-}
+// export function setVisibilityFilter(filter) {
+//   return {
+//     type: SET_VISIBILITY_FILTER,
+//     filter,
+//   };
+// }
