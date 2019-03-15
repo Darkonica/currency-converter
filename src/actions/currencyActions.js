@@ -1,9 +1,13 @@
 import * as types from "./actionTypes";
 
-export function fetchData() {
+const baseUrl = "https://api.exchangeratesapi.io/latest";
+
+export function fetchData(base = "") {
+  const url = base ? baseUrl + "?base=" + base : baseUrl;
+  console.log(url);
   return dispatch => {
     dispatch(fetchDataBegin());
-    return fetch("https://api.exchangeratesapi.io/latest")
+    return fetch(url)
       .then(res => res.json())
       .then(data =>
         data.rates
