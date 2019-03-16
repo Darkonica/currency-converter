@@ -5,6 +5,12 @@ import { css } from "astroturf";
 const styles = css`
   .header {
     width: 100%;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    background-color: #37517e;
+  }
+
+  .wrapper {
     max-width: 1280px;
     display: flex;
     justify-content: space-between;
@@ -18,7 +24,7 @@ const styles = css`
     text-transform: uppercase;
 
     a {
-      color: #2f2f2f;
+      color: #efefef;
       text-decoration: none;
     }
   }
@@ -33,7 +39,7 @@ const styles = css`
   }
 
   .navItemLink {
-    color: #2f2f2f;
+    color: #efefef;
     text-decoration: none;
 
     &.active {
@@ -50,32 +56,34 @@ export default class Header extends Component {
   render() {
     return (
       <header className={styles.header}>
-        <div className={styles.logo}>
-          <NavLink to="/">Currency Converter</NavLink>
+        <div className={styles.wrapper}>
+          <div className={styles.logo}>
+            <NavLink to="/">Currency Converter</NavLink>
+          </div>
+          <nav>
+            <ul>
+              <li className={styles.navItem}>
+                <NavLink
+                  className={styles.navItemLink}
+                  activeClassName={styles.active}
+                  to="/"
+                  exact
+                >
+                  Converter
+                </NavLink>
+              </li>
+              <li className={styles.navItem}>
+                <NavLink
+                  className={styles.navItemLink}
+                  activeClassName={styles.active}
+                  to="/currency-list"
+                >
+                  Currency list
+                </NavLink>
+              </li>
+            </ul>
+          </nav>
         </div>
-        <nav>
-          <ul>
-            <li className={styles.navItem}>
-              <NavLink
-                className={styles.navItemLink}
-                activeClassName={styles.active}
-                to="/"
-                exact
-              >
-                Converter
-              </NavLink>
-            </li>
-            <li className={styles.navItem}>
-              <NavLink
-                className={styles.navItemLink}
-                activeClassName={styles.active}
-                to="/currency-list"
-              >
-                Currency list
-              </NavLink>
-            </li>
-          </ul>
-        </nav>
       </header>
     );
   }

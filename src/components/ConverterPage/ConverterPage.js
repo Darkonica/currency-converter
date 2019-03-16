@@ -1,25 +1,69 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
+import { css } from "astroturf";
+
 import * as currencyActions from "../../actions/currencyActions";
+
+const styles = css`
+  .content {
+    margin-top: 10vh;
+  }
+
+  .wrapper {
+    width: 100%;
+    max-width: 800px;
+    margin-right: auto;
+    margin-left: auto;
+  }
+
+  .title {
+    margin-bottom: 60px;
+    text-align: center;
+  }
+
+  .converter {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .block {
+    width: 45%;
+  }
+  .select {
+  }
+
+  .inputGroup {
+    margin-top: 20px;
+  }
+  .inputTitle {
+    margin-bottom: 5px;
+  }
+  .input {
+    width: 100%;
+    padding: 10px;
+  }
+`;
 
 class ConverterPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
       firstField: {
-        amount: "",
+        value: "",
         currency: "USD",
       },
       secondField: {
-        amount: "",
+        value: "",
         currency: "EUR",
       },
     };
   }
 
   componentDidMount() {
-    this.props.fetchData("USD");
+    this.props
+      .fetchData("USD")
+      .then(() => console.log(this.props.currencyList.rates));
   }
 
   handlerChangeInput = e => {
@@ -29,35 +73,34 @@ class ConverterPage extends Component {
     if (field === "firstField") {
       const currency = this.state.secondField.currency;
       const rate = this.props.currencyList.rates[currency];
-      const secondValue = value * rate;
+      const secondValue = (value * rate).toFixed(2);
 
       this.setState({
         ...this.state,
         firstField: {
           ...this.state.firstField,
-          amount: value,
+          value,
         },
         secondField: {
           ...this.state.secondField,
-          amount: secondValue,
+          value: secondValue,
         },
       });
-      // redux change base currency here
     } else {
       console.log("second");
-      const currency = this.state.firstField.currency;
+      const currency = this.state.secondField.currency;
       const rate = this.props.currencyList.rates[currency];
-      const secondValue = value / rate;
+      const secondValue = (value / rate).toFixed(2);
 
       this.setState({
         ...this.state,
         firstField: {
           ...this.state.firstField,
-          amount: secondValue,
+          value: secondValue,
         },
         secondField: {
           ...this.state.secondField,
-          amount: value,
+          value,
         },
       });
     }
@@ -68,60 +111,103 @@ class ConverterPage extends Component {
     const select = e.target.name;
 
     if (select === "firstSelect") {
-      const secondValue =
-        this.state.firstField.amount * this.props.currencyList.rates[currency];
+      this.props.fetchData(currency).then(() => {
+        const secondCurrency = this.state.secondField.currency;
+        const rate =
+          secondCurrency !== currency
+            ? this.props.currencyList.rates[secondCurrency]
+            : 1;
+
+        console.log(rate);
+        const secondValue = this.state.firstField.value
+          ? (this.state.firstField.value * rate).toFixed(2)
+          : "";
+
+        this.setState({
+          ...this.state,
+          firstField: {
+            ...this.state.firstField,
+            currency,
+          },
+          secondField: {
+            ...this.state.secondField,
+            value: secondValue,
+          },
+        });
+      });
+    } else {
+      const value = this.state.firstField.value;
+      const rate = this.props.currencyList.rates[currency];
+      const newValue = (value * rate).toFixed(2);
 
       this.setState({
         ...this.state,
-        firstField: {
-          ...this.state.firstField,
-          currency,
-        },
-        secondField: {
-          ...this.state.secondField,
-          amount: secondValue,
-        },
-      });
-    } else {
-      this.setState({
-        ...this.state,
         secondField: {
           ...this.state.secondField,
           currency,
+          value: newValue,
         },
       });
     }
   };
 
   render() {
+    let currencyOptions;
+    if (!this.props.loading) {
+      currencyOptions = Object.keys(this.props.currencyList.rates).map(item => (
+        <option value={item}>{item}</option>
+      ));
+    }
+
     return (
-      <div>
-        <h1>Converter page</h1>
+      <div className={styles.content}>
+        <div className={styles.wrapper}>
+          <h1 className={styles.title}>Currency Converter</h1>
+          <div className={styles.converter}>
+            <div className={styles.block}>
+              <select
+                name="firstSelect"
+                id=""
+                className={styles.select}
+                onChange={this.handleChangeSelect}
+              >
+                {currencyOptions}
+              </select>
 
-        <div className="converter">
-          <select name="firstSelect" id="" onChange={this.handleChangeSelect}>
-            <option value="USD">USD</option>
-            <option value="EUR">EURO</option>
-            <option value="RUB">ROUBLE</option>
-          </select>
-          <input
-            type="text"
-            name="firstField"
-            onChange={this.handlerChangeInput}
-            value={this.state.firstField.amount}
-          />
+              <div className={styles.inputGroup}>
+                <div className={styles.inputTitle}>Amount:</div>
+                <input
+                  type="text"
+                  name="firstField"
+                  className={styles.input}
+                  onChange={this.handlerChangeInput}
+                  value={this.state.firstField.value}
+                />
+              </div>
+            </div>
 
-          <select name="secondSelect" id="" onChange={this.handleChangeSelect}>
-            <option value="EUR">EURO</option>
-            <option value="USD">USD</option>
-            <option value="RUB">ROUBLE</option>
-          </select>
-          <input
-            type="text"
-            name="secondField"
-            onChange={this.handlerChangeInput}
-            value={this.state.secondField.amount}
-          />
+            <div className={styles.block}>
+              <select
+                name="secondSelect"
+                id=""
+                className={styles.select}
+                onChange={this.handleChangeSelect}
+              >
+                {currencyOptions}
+              </select>
+
+              <div className={styles.inputGroup}>
+                <div className={styles.inputTitle}>Amount:</div>
+                <input
+                  type="text"
+                  name="secondField"
+                  className={styles.input}
+                  onChange={this.handlerChangeInput}
+                  value={this.state.secondField.value}
+                />
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     );
@@ -135,7 +221,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     fetchData: base => {
-      dispatch(currencyActions.fetchData(base));
+      return dispatch(currencyActions.fetchData(base));
     },
   };
 };
