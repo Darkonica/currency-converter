@@ -61,9 +61,9 @@ class ConverterPage extends Component {
   }
 
   componentDidMount() {
-    this.props
-      .fetchData("USD")
-      .then(() => console.log(this.props.currencyList.rates));
+    if (Object.keys(this.props.currencyList).length === 0) {
+      this.props.fetchData("USD");
+    }
   }
 
   handlerChangeInput = e => {
@@ -154,9 +154,13 @@ class ConverterPage extends Component {
   render() {
     let currencyOptions;
     if (!this.props.loading) {
-      currencyOptions = Object.keys(this.props.currencyList.rates).map(item => (
-        <option value={item}>{item}</option>
-      ));
+      currencyOptions = Object.keys(this.props.currencyList.rates)
+        .sort()
+        .map(item => (
+          <option value={item} key={item}>
+            {item}
+          </option>
+        ));
     }
 
     return (
@@ -170,6 +174,7 @@ class ConverterPage extends Component {
                 id=""
                 className={styles.select}
                 onChange={this.handleChangeSelect}
+                value={this.state.firstField.currency}
               >
                 {currencyOptions}
               </select>
@@ -192,6 +197,7 @@ class ConverterPage extends Component {
                 id=""
                 className={styles.select}
                 onChange={this.handleChangeSelect}
+                value={this.state.secondField.currency}
               >
                 {currencyOptions}
               </select>

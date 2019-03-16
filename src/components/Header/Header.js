@@ -76,9 +76,9 @@ export default class Header extends Component {
                 <NavLink
                   className={styles.navItemLink}
                   activeClassName={styles.active}
-                  to="/currency-list"
+                  to="/exchange-rates"
                 >
-                  Currency list
+                  Exchange rates
                 </NavLink>
               </li>
             </ul>

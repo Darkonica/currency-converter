@@ -4,7 +4,7 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { css } from "astroturf";
 
 import Header from "./Header/Header";
-import CurrencyListPage from "./CurrencyListPage/CurrencyListPage";
+import ExchangeRatesPage from "./ExchangeRatesPage/ExchangeRatesPage";
 import ConverterPage from "./ConverterPage/ConverterPage";
 import Page404 from "./Page404/Page404";
 
@@ -30,7 +30,7 @@ export default class App extends Component {
           <Header />
           <Switch>
             <Route path="/" component={ConverterPage} exact />
-            <Route path="/currency-list" component={CurrencyListPage} />
+            <Route path="/exchange-rates" component={ExchangeRatesPage} />
             <Route component={Page404} />
           </Switch>
         </>
