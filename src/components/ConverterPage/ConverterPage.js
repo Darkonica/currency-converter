@@ -7,7 +7,8 @@ import * as currencyActions from "../../actions/currencyActions";
 
 const styles = css`
   .content {
-    margin-top: 10vh;
+    margin-top: 60px;
+    padding-bottom: 60px;
   }
 
   .wrapper {
@@ -51,7 +52,7 @@ class ConverterPage extends Component {
     this.state = {
       firstField: {
         value: "",
-        currency: "USD",
+        currency: this.props.currencyList.base || "USD",
       },
       secondField: {
         value: "",

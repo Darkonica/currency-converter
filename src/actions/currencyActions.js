@@ -9,11 +9,14 @@ export function fetchData(base = "") {
     dispatch(fetchDataBegin());
     return fetch(url)
       .then(res => res.json())
-      .then(data =>
-        data.rates
-          ? dispatch(fetchDataSuccess(data))
-          : dispatch(fetchDataError(data))
-      )
+      .then(data => {
+        if (data.rates) {
+          if (!data.rates[base]) data.rates[base] = 1;
+          dispatch(fetchDataSuccess(data));
+        } else {
+          dispatch(fetchDataError(data));
+        }
+      })
       .catch(err => dispatch(fetchDataError(err)));
   };
 }
