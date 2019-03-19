@@ -48,21 +48,48 @@ const styles = css`
     border-collapse: collapse;
     border-spacing: 0;
 
-    th {
-      padding: 5px 10px;
-      &:nth-of-type(2n) {
-        text-align: right;
+    .favoriteRate {
+      font-weight: 600;
+    }
+    .favoriteRate > .favorite {
+      opacity: 1;
+    }
+
+    .favorite {
+      opacity: 0;
+      width: 30px;
+      border-bottom: none;
+    }
+    .favoriteButton {
+      width: 16px;
+      height: 16px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      background-image: url(/assets/icons/star.svg);
+      background-size: contain;
+    }
+
+    tbody tr {
+      &:hover .favorite {
+        opacity: 1;
       }
     }
 
-    tr {
+    th {
+      padding: 5px 10px;
       border-bottom: 1px solid #cecece;
+
+      &:nth-of-type(2n) {
+        text-align: right;
+      }
     }
 
     td {
       font-size: 14px;
       color: #4e4e4e;
       padding: 5px 10px;
+      border-bottom: 1px solid #cecece;
 
       &:nth-of-type(2n) {
         text-align: right;
@@ -80,25 +107,62 @@ class ExchangeRatesPage extends Component {
 
   handleChangeSelect = e => {
     const currency = e.target.value;
-    this.props
-      .fetchData(currency)
-      .then(() => console.log(this.props.currencyList.base));
+    this.props.fetchData(currency);
+  };
+
+  handleFavoriteCurrency = e => {
+    const currency = e.target.closest("tr").dataset.currency;
+    console.log("favorite: " + currency);
+    this.props.toggleFavorite(currency);
   };
 
   render() {
     let currencyOptions;
     let exchangeRatesList;
+    let favoriteRates = [];
 
     if (this.props.currencyList && !this.props.loading) {
-      exchangeRatesList = Object.entries(this.props.currencyList.rates)
+      favoriteRates = Object.entries(this.props.currencyList.rates)
+        .filter(rate => this.props.favorites.includes(rate[0]))
         .sort()
         .map(rate => {
           // We don't need a base rate in a list
           if (rate[0] === this.props.currencyList.base) return null;
           return (
-            <tr key={rate[0]}>
+            <tr
+              key={rate[0]}
+              data-currency={rate[0]}
+              className={styles.favoriteRate}
+            >
               <td>{rate[0]}</td>
               <td>{rate[1]}</td>
+              <td className={styles.favorite}>
+                <button
+                  className={styles.favoriteButton}
+                  onClick={this.handleFavoriteCurrency}
+                />
+              </td>
+            </tr>
+          );
+        });
+
+      exchangeRatesList = Object.entries(this.props.currencyList.rates)
+        .filter(rate => !this.props.favorites.includes(rate[0]))
+        .sort()
+
+        .map(rate => {
+          // We don't need a base rate in a list
+          if (rate[0] === this.props.currencyList.base) return null;
+          return (
+            <tr key={rate[0]} data-currency={rate[0]}>
+              <td>{rate[0]}</td>
+              <td>{rate[1]}</td>
+              <td className={styles.favorite}>
+                <button
+                  className={styles.favoriteButton}
+                  onClick={this.handleFavoriteCurrency}
+                />
+              </td>
             </tr>
           );
         });
@@ -129,7 +193,7 @@ class ExchangeRatesPage extends Component {
                 {currencyOptions}
               </select>
 
-              <div className={styles.inputGroup}>
+              {/* <div className={styles.inputGroup}>
                 <div className={styles.inputTitle}>Amount:</div>
                 <input
                   type="text"
@@ -138,7 +202,7 @@ class ExchangeRatesPage extends Component {
                   // onChange={this.handlerChangeInput}
                   // value={this.state.secondField.value}
                 />
-              </div>
+              </div> */}
             </div>
             <table className={styles.table}>
               <thead>
@@ -147,7 +211,10 @@ class ExchangeRatesPage extends Component {
                   <th>1 {this.props.currencyList.base}</th>
                 </tr>
               </thead>
-              <tbody>{exchangeRatesList}</tbody>
+              <tbody>
+                {favoriteRates}
+                {exchangeRatesList}
+              </tbody>
             </table>
           </div>
         </div>
@@ -164,6 +231,9 @@ const mapDispatchToProps = dispatch => {
   return {
     fetchData: base => {
       return dispatch(currencyActions.fetchData(base));
+    },
+    toggleFavorite: currency => {
+      return dispatch(currencyActions.toggleFavorite(currency));
     },
   };
 };

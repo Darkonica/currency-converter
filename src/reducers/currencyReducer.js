@@ -3,6 +3,7 @@ import {
   FETCH_DATA_BEGIN,
   FETCH_DATA_SUCCESS,
   FETCH_DATA_ERROR,
+  TOGGLE_FAVORITE,
 } from "../actions/actionTypes";
 
 export default function currency(state = initialState, action) {
@@ -28,6 +29,15 @@ export default function currency(state = initialState, action) {
         loading: false,
         error: true,
         errorText: action.errorText ? action.errorText : null,
+      };
+
+    case TOGGLE_FAVORITE:
+      const favorites = state.favorites.includes(action.currency)
+        ? state.favorites.filter(fav => fav !== action.currency)
+        : state.favorites.concat(action.currency);
+      return {
+        ...state,
+        favorites,
       };
 
     default:

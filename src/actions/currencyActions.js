@@ -40,3 +40,10 @@ export function fetchDataError(errorText) {
     errorText,
   };
 }
+
+export function toggleFavorite(currency) {
+  return {
+    type: types.TOGGLE_FAVORITE,
+    currency,
+  };
+}

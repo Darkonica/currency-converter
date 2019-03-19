@@ -1,8 +1,6 @@
-import { VisibilityFilters } from "../actions/actionTypes";
-
 export default {
-  // visibilityFilter: VisibilityFilters.SHOW_ALL,
   currencyList: {},
+  favorites: [],
   loading: true,
   error: null,
 };
