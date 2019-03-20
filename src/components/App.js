@@ -10,6 +10,7 @@ import Page404 from "./Page404/Page404";
 
 const _ = css`
   @import url("https://fonts.googleapis.com/css?family=Roboto");
+  @import-normalize;
 
   body {
     font: 16px "Roboto", sans-serif;

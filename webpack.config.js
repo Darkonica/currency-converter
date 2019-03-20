@@ -1,5 +1,6 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const postcssNormalize = require("postcss-normalize");
 
 module.exports = {
   entry: "./src/index.js",
@@ -21,6 +22,13 @@ module.exports = {
           },
           {
             loader: "astroturf/css-loader",
+          },
+          {
+            loader: "postcss-loader",
+            options: {
+              ident: "postcss",
+              plugins: () => [postcssNormalize(/* pluginOptions */)],
+            },
           },
         ],
       },
