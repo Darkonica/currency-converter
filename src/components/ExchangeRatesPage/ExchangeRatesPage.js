@@ -5,6 +5,8 @@ import { css } from "astroturf";
 
 import * as currencyActions from "../../actions/currencyActions";
 
+import StarIcon from "../../assets/icons/star.svg";
+
 const styles = css`
   .content {
     margin-top: 60px;
@@ -48,13 +50,6 @@ const styles = css`
     border-collapse: collapse;
     border-spacing: 0;
 
-    .favoriteRate {
-      font-weight: 600;
-    }
-    .favoriteRate > .favorite {
-      opacity: 1;
-    }
-
     .favorite {
       opacity: 0;
       width: 30px;
@@ -63,11 +58,29 @@ const styles = css`
     .favoriteButton {
       width: 16px;
       height: 16px;
+      padding: 0;
       background: none;
       border: none;
       cursor: pointer;
-      background-image: url(/assets/icons/star.svg);
-      background-size: contain;
+
+      svg {
+        width: 16px;
+        height: 16px;
+        fill: #fff;
+        stroke: #000;
+      }
+    }
+    .favoriteRate {
+      font-weight: 600;
+
+      & > .favorite {
+        opacity: 1;
+      }
+      .favoriteButton {
+        svg {
+          fill: #000;
+        }
+      }
     }
 
     tbody tr {
@@ -140,7 +153,9 @@ class ExchangeRatesPage extends Component {
                 <button
                   className={styles.favoriteButton}
                   onClick={this.handleFavoriteCurrency}
-                />
+                >
+                  <StarIcon className={styles.favoriteIcon} />
+                </button>
               </td>
             </tr>
           );
@@ -161,7 +176,9 @@ class ExchangeRatesPage extends Component {
                 <button
                   className={styles.favoriteButton}
                   onClick={this.handleFavoriteCurrency}
-                />
+                >
+                  <StarIcon />
+                </button>
               </td>
             </tr>
           );
