@@ -4,6 +4,7 @@ import * as currencyActions from "../../actions/currencyActions";
 
 import { css } from "astroturf";
 import StarIcon from "../../assets/icons/star.svg";
+import CurrencySelect from "../CurrencySelect/CurrencySelect";
 
 const styles = css`
   .exchangeRates {
@@ -115,7 +116,7 @@ class ExchangeRatesList extends Component {
     let exchangeRatesList;
     let favoriteRates = [];
 
-    if (this.props.currencyList && !this.props.loading) {
+    if (!this.props.loading || this.props.currencyList.rates) {
       favoriteRates = Object.entries(this.props.currencyList.rates)
         .filter(rate => this.props.favorites.includes(rate[0]))
         .sort()
@@ -177,7 +178,7 @@ class ExchangeRatesList extends Component {
     return (
       <div className={styles.exchangeRates}>
         <div className={styles.baseCurrency}>
-          <select
+          <CurrencySelect
             name="secondSelect"
             id=""
             className={styles.select}
@@ -185,18 +186,7 @@ class ExchangeRatesList extends Component {
             value={this.props.currencyList.base}
           >
             {currencyOptions}
-          </select>
-
-          {/* <div className={styles.inputGroup}>
-                <div className={styles.inputTitle}>Amount:</div>
-                <input
-                  type="text"
-                  name="secondField"
-                  className={styles.input}
-                  // onChange={this.handlerChangeInput}
-                  // value={this.state.secondField.value}
-                />
-              </div> */}
+          </CurrencySelect>
         </div>
         <table className={styles.table}>
           <thead>
