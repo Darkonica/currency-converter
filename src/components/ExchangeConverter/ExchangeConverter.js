@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 
 import { css } from "astroturf";
 import * as currencyActions from "../../actions/currencyActions";
+import CurrencySelect from "../CurrencySelect/CurrencySelect";
 
 const styles = css`
   .converter {
@@ -12,11 +13,6 @@ const styles = css`
 
   .block {
     width: 45%;
-  }
-  .select {
-    width: 100%;
-    padding: 10px;
-    background: none;
   }
 
   .inputGroup {
@@ -150,7 +146,7 @@ class ExchangeConverter extends Component {
     } else {
       const value = this.state.firstField.value;
       const rate = this.props.currencyList.rates[currency];
-      const newValue = (value * rate).toFixed(2);
+      const newValue = (value * rate).toFixed(4);
 
       this.setState({
         ...this.state,
@@ -165,7 +161,7 @@ class ExchangeConverter extends Component {
 
   render() {
     let currencyOptions;
-    if (!this.props.loading) {
+    if (!this.props.loading || this.props.currencyList.rates) {
       currencyOptions = Object.keys(this.props.currencyList.rates)
         .sort()
         .map(item => (
@@ -178,15 +174,14 @@ class ExchangeConverter extends Component {
     return (
       <div className={styles.converter}>
         <div className={styles.block}>
-          <select
+          <CurrencySelect
             name="firstSelect"
-            id=""
             className={styles.select}
             onChange={this.handleChangeSelect}
             value={this.state.firstField.currency}
           >
             {currencyOptions}
-          </select>
+          </CurrencySelect>
 
           <div className={styles.inputGroup}>
             <div className={styles.inputTitle}>Amount:</div>
@@ -201,15 +196,14 @@ class ExchangeConverter extends Component {
         </div>
 
         <div className={styles.block}>
-          <select
+          <CurrencySelect
             name="secondSelect"
-            id=""
             className={styles.select}
             onChange={this.handleChangeSelect}
             value={this.state.secondField.currency}
           >
             {currencyOptions}
-          </select>
+          </CurrencySelect>
 
           <div className={styles.inputGroup}>
             <div className={styles.inputTitle}>Amount:</div>
