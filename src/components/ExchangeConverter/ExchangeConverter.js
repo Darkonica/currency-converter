@@ -14,12 +14,17 @@ const styles = css`
     width: 45%;
   }
   .select {
+    width: 100%;
+    padding: 10px;
+    background: none;
   }
 
   .inputGroup {
     margin-top: 20px;
   }
   .inputTitle {
+    font-size: 14px;
+    color: #3e3e3e;
     margin-bottom: 5px;
   }
   .input {
@@ -33,11 +38,11 @@ class ExchangeConverter extends Component {
     super(props);
     this.state = {
       firstField: {
-        value: "",
+        value: "0",
         currency: this.props.currencyList.base || "USD",
       },
       secondField: {
-        value: "",
+        value: "0",
         currency: "EUR",
       },
     };
@@ -49,14 +54,38 @@ class ExchangeConverter extends Component {
     }
   }
 
+  inputValidation = data => {
+    const result = /^([0]|[0-9]+[\.]?[0-9]{0,4}|)$/.test(data);
+    return result;
+  };
+
+  inputTranform = data => {
+    if (/^([0]+)/.test(data) && !/^([0][\.])/.test(data)) {
+      console.log(data);
+      // if number starts from 0 without dot after it, like "000013" or "000.13" — delete unnecessary zeros
+      for (let i = 0; i < data.length; i++) {
+        if (data[i] !== "0") return data.slice(i);
+      }
+      return data.length ? data[0] : 0;
+    }
+    return data.length ? data : 0;
+  };
+
   handlerChangeInput = e => {
-    const value = e.target.value;
+    let value = e.target.value;
     const field = e.target.name;
 
+    if (!this.inputValidation(value)) {
+      return false;
+    }
+
+    value = this.inputTranform(value);
+
     if (field === "firstField") {
+      console.log("first");
       const currency = this.state.secondField.currency;
       const rate = this.props.currencyList.rates[currency];
-      const secondValue = (value * rate).toFixed(2);
+      const secondValue = (value * rate).toFixed(4);
 
       this.setState({
         ...this.state,
