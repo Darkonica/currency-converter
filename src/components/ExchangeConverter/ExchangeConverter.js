@@ -57,7 +57,6 @@ class ExchangeConverter extends Component {
 
   inputTranform = data => {
     if (/^([0]+)/.test(data) && !/^([0][\.])/.test(data)) {
-      console.log(data);
       // if number starts from 0 without dot after it, like "000013" or "000.13" — delete unnecessary zeros
       for (let i = 0; i < data.length; i++) {
         if (data[i] !== "0") return data.slice(i);
@@ -78,7 +77,6 @@ class ExchangeConverter extends Component {
     value = this.inputTranform(value);
 
     if (field === "firstField") {
-      console.log("first");
       const currency = this.state.secondField.currency;
       const rate = this.props.currencyList.rates[currency];
       const secondValue = (value * rate).toFixed(4);
@@ -95,7 +93,6 @@ class ExchangeConverter extends Component {
         },
       });
     } else {
-      console.log("second");
       const currency = this.state.secondField.currency;
       const rate = this.props.currencyList.rates[currency];
       const secondValue = (value / rate).toFixed(2);
@@ -126,7 +123,6 @@ class ExchangeConverter extends Component {
             ? this.props.currencyList.rates[secondCurrency]
             : 1;
 
-        console.log(rate);
         const secondValue = this.state.firstField.value
           ? (this.state.firstField.value * rate).toFixed(2)
           : "";

@@ -4,7 +4,6 @@ const baseUrl = "https://api.exchangeratesapi.io/latest";
 
 export function fetchData(base = "") {
   const url = base ? baseUrl + "?base=" + base : baseUrl;
-  console.log(url);
   return dispatch => {
     dispatch(fetchDataBegin());
     return fetch(url)

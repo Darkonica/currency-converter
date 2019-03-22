@@ -107,7 +107,6 @@ class ExchangeRatesList extends Component {
 
   handleFavoriteCurrency = e => {
     const currency = e.target.closest("tr").dataset.currency;
-    console.log("favorite: " + currency);
     this.props.toggleFavorite(currency);
   };
 
