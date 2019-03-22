@@ -2,6 +2,6 @@
 
 Exchange currency converter, React + Redux.
 
-# Install
+## Install
 
 > yarn install
