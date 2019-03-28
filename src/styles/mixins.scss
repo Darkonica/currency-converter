@@ -1,0 +1,19 @@
+@mixin breakpoint($value, $operator: 'max-width', $query: 'screen') {
+
+  @media #{$query} and (#{$operator}: #{$value}) {
+    @content;
+  }
+}
+
+@mixin block-paddings($screen) {
+
+  @if $screen == desktop {
+    padding-right: 40px;
+    padding-left: 40px;
+  }
+
+  @if $screen == mobile {
+    padding-right: 20px;
+    padding-left: 20px;
+  }
+}

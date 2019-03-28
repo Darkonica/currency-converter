@@ -19,13 +19,16 @@ module.exports = {
         use: ["@svgr/webpack"],
       },
       {
-        test: /\.css$/,
+        test: /\.(s?)css$/,
         use: [
           {
             loader: "style-loader",
           },
           {
             loader: "astroturf/css-loader",
+          },
+          {
+            loader: "sass-loader",
           },
           {
             loader: "postcss-loader",

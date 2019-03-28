@@ -3,6 +3,8 @@ import { NavLink } from "react-router-dom";
 import { css } from "astroturf";
 
 const styles = css`
+  @import '../../styles/mixins.scss';
+
   .header {
     width: 100%;
     padding-top: 15px;
@@ -17,6 +19,10 @@ const styles = css`
     align-items: center;
     margin-right: auto;
     margin-left: auto;
+
+    @include block-paddings(desktop);
+
+    
   }
 
   .logo {
