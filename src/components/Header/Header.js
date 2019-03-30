@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 import { css } from "astroturf";
 
 const styles = css`
-  @import '../../styles/mixins.scss';
+  @import "../../styles/mixins.scss";
 
   .header {
     width: 100%;
@@ -22,16 +22,33 @@ const styles = css`
 
     @include block-paddings(desktop);
 
-    
+    @include breakpoint(700px) {
+      flex-direction: column;
+    }
+
+    @include breakpoint(450px) {
+      @include block-paddings(mobile);
+    }
   }
 
   .logo {
-    font-size: 24px;
+    font-size: 22px;
     text-transform: uppercase;
+    padding-top: 3px;
 
     a {
       color: #efefef;
       text-decoration: none;
+    }
+  }
+
+  .navList {
+    padding: 0;
+    margin-top: 0px;
+    margin-bottom: 0px;
+
+    @include breakpoint(700px) {
+      margin-top: 15px;
     }
   }
 
@@ -67,7 +84,7 @@ export default class Header extends Component {
             <NavLink to="/">Currency Converter</NavLink>
           </div>
           <nav>
-            <ul>
+            <ul className={styles.navList}>
               <li className={styles.navItem}>
                 <NavLink
                   className={styles.navItemLink}

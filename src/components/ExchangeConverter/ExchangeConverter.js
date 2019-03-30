@@ -6,13 +6,28 @@ import * as currencyActions from "../../actions/currencyActions";
 import CurrencySelect from "../CurrencySelect/CurrencySelect";
 
 const styles = css`
+  @import "../../styles/mixins.scss";
+
   .converter {
     display: flex;
     justify-content: space-between;
+
+    @include breakpoint(450px) {
+      flex-direction: column;
+    }
   }
 
   .block {
     width: 45%;
+
+    @include breakpoint(450px) {
+      width: 100%;
+      margin-bottom: 50px;
+
+      &:last-of-type {
+        margin-bottom: 0px;
+      }
+    }
   }
 
   .inputGroup {

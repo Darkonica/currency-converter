@@ -4,9 +4,17 @@ import ExchangeConverter from "../ExchangeConverter/ExchangeConverter";
 import { css } from "astroturf";
 
 const styles = css`
+  @import "../../styles/mixins.scss";
+
   .content {
     margin-top: 60px;
     padding-bottom: 60px;
+
+    @include block-paddings(desktop);
+
+    @include breakpoint(450px) {
+      @include block-paddings(mobile);
+    }
   }
 
   .wrapper {

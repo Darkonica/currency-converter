@@ -7,9 +7,15 @@ import StarIcon from "../../assets/icons/star.svg";
 import CurrencySelect from "../CurrencySelect/CurrencySelect";
 
 const styles = css`
+  @import "../../styles/mixins.scss";
   .exchangeRates {
     display: flex;
     justify-content: space-between;
+
+    @include breakpoint(800px) {
+      flex-direction: column;
+      align-items: center;
+    }
   }
   .inputGroup {
     margin-top: 20px;
@@ -24,18 +30,36 @@ const styles = css`
 
   .baseCurrency {
     width: 30%;
+
+    @include breakpoint(800px) {
+      width: 100%;
+      max-width: 400px;
+      margin-bottom: 40px;
+    }
   }
 
-  .table {
+  .tableCont {
     width: 60%;
+
+    @include breakpoint(800px) {
+      width: 100%;
+      max-width: 600px;
+    }
+  }
+  .table {
+    width: 100%;
     text-align: left;
     border-collapse: collapse;
     border-spacing: 0;
 
     .favorite {
       opacity: 0;
-      width: 30px;
+      width: 36px;
       border-bottom: none;
+
+      @include breakpoint(800px) {
+        opacity: 1;
+      }
     }
     .favoriteButton {
       width: 16px;
@@ -83,7 +107,7 @@ const styles = css`
     td {
       font-size: 14px;
       color: #4e4e4e;
-      padding: 5px 10px;
+      padding: 9px 10px 5px;
       border-bottom: 1px solid #cecece;
 
       &:nth-of-type(2n) {
@@ -187,18 +211,20 @@ class ExchangeRatesList extends Component {
             {currencyOptions}
           </CurrencySelect>
         </div>
-        <table className={styles.table}>
-          <thead>
-            <tr>
-              <th>{this.props.currencyList.base}</th>
-              <th>1 {this.props.currencyList.base}</th>
-            </tr>
-          </thead>
-          <tbody>
-            {favoriteRates}
-            {exchangeRatesList}
-          </tbody>
-        </table>
+        <div className={styles.tableCont}>
+          <table className={styles.table}>
+            <thead>
+              <tr>
+                <th>{this.props.currencyList.base}</th>
+                <th>1 {this.props.currencyList.base}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {favoriteRates}
+              {exchangeRatesList}
+            </tbody>
+          </table>
+        </div>
       </div>
     );
   }
