@@ -34,6 +34,7 @@ const styles = css`
     margin-top: 20px;
   }
   .inputTitle {
+    display: block;
     font-size: 14px;
     color: #3e3e3e;
     margin-bottom: 5px;
@@ -186,6 +187,7 @@ class ExchangeConverter extends Component {
       <div className={styles.converter}>
         <div className={styles.block}>
           <CurrencySelect
+            labelText="Choose currency"
             name="firstSelect"
             className={styles.select}
             onChange={this.handleChangeSelect}
@@ -195,9 +197,12 @@ class ExchangeConverter extends Component {
           </CurrencySelect>
 
           <div className={styles.inputGroup}>
-            <div className={styles.inputTitle}>Amount:</div>
+            <label className={styles.inputTitle} htmlFor="firstField">
+              Amount:
+            </label>
             <input
               type="text"
+              id="firstField"
               name="firstField"
               className={styles.input}
               onChange={this.handlerChangeInput}
@@ -208,6 +213,7 @@ class ExchangeConverter extends Component {
 
         <div className={styles.block}>
           <CurrencySelect
+            labelText="Choose currency"
             name="secondSelect"
             className={styles.select}
             onChange={this.handleChangeSelect}
@@ -217,9 +223,12 @@ class ExchangeConverter extends Component {
           </CurrencySelect>
 
           <div className={styles.inputGroup}>
-            <div className={styles.inputTitle}>Amount:</div>
+            <label className={styles.inputTitle} htmlFor="secondField">
+              Amount:
+            </label>
             <input
               type="text"
+              id="secondField"
               name="secondField"
               className={styles.input}
               onChange={this.handlerChangeInput}

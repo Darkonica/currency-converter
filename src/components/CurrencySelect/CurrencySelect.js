@@ -8,18 +8,27 @@ const styles = css`
     padding: 10px;
     background: none;
   }
+  .label {
+    display: none;
+  }
 `;
 
 const CurrencySelect = props => {
   return (
-    <select
-      name={props.name}
-      className={styles.select}
-      onChange={props.onChange}
-      value={props.value}
-    >
-      {props.children}
-    </select>
+    <>
+      <label className={styles.label} htmlFor={props.name}>
+        {props.labelText}
+      </label>
+      <select
+        id={props.name}
+        name={props.name}
+        className={styles.select}
+        onChange={props.onChange}
+        value={props.value}
+      >
+        {props.children}
+      </select>
+    </>
   );
 };
 
